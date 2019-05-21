@@ -1,0 +1,27 @@
+{
+  "name": "I Love SteemPeak",
+  "description": "A Chrome Web Extension for those who love SteemPeak",
+  "version": "1.0.0",
+  "version_name": "1.0 beta",
+  "manifest_version": 2,
+  "icons": {
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "browser_action": {
+    "default_title": "I Love SteemPeak",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "chrome_style": true
+  }
+}
