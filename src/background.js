@@ -1,4 +1,3 @@
-import store from './store';
 global.browser = require('webextension-polyfill');
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
