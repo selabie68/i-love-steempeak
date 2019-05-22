@@ -1,0 +1,65 @@
+.ils-modal {
+  position: fixed;
+  top: 120px;
+  right: -140px;
+  width: 300px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #333;
+  text-shadow: none;
+  padding: 2em;
+  text-align: left;
+  font-weight: normal;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px;
+  text-transform: none;
+  transition: .2s all ease-out;
+  opacity: 1;
+  pointer-events: all;
+  margin-top: 0;
+  z-index: 1000;
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin: -30px -10px;
+
+    &:hover, &:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+
+.ils-button {
+  background-color: #44c767;
+  -moz-border-radius: 28px;
+  -webkit-border-radius: 28px;
+  border-radius: 28px;
+  border: 1px solid #18ab29;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  padding: 10px 15px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #2f6627;
+  width: 100%;
+
+  &:hover {
+    background-color: #5cbf2a;
+  }
+
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+  }
+}

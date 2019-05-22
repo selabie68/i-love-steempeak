@@ -18,7 +18,11 @@
     ]
   },
   "permissions": [
-    "tabs"
+    "https://steemit.com/*",
+    "https://busy.org/*",
+    "activeTab",
+    "tabs",
+    "storage"
   ],
   "options_ui": {
     "page": "options/options.html",

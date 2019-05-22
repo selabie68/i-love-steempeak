@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 const { VueLoaderPlugin } = require('vue-loader');
+const sass = require('node-sass');
 const { version } = require('./package.json');
 
 const config = {
@@ -13,6 +14,7 @@ const config = {
     'background': './background.js',
     'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
+    'modal/modal': './modal/modal.js',
   },
   output: {
     path: __dirname + '/dist',
@@ -65,6 +67,17 @@ const config = {
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
       { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
       { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
+      {
+        from: 'modal/modal.scss',
+        to: 'modal/modal.css',
+        transform(content, path) {
+          const result = sass.renderSync({
+            file: path,
+          });
+
+          return result.css.toString();
+        },
+      },
       {
         from: 'manifest.json',
         to: 'manifest.json',
