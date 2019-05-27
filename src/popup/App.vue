@@ -30,7 +30,8 @@ export default {
 </script>
 
 <style lang="scss">
-html {
+body {
   width: 300px;
+  font-family: Arial, sans-serif;
 }
 </style>
