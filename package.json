@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Chrome Web Extension for those who love SteemPeak",
   "author": "Michael Smith <selabie68@gmail.com>",
+  "license": "GPL-3.0-only",
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "precommit": "pretty-quick --staged",
