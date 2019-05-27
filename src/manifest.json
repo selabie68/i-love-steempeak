@@ -18,9 +18,11 @@
     ]
   },
   "permissions": [
-    "https://steemit.com/*",
-    "https://busy.org/*",
+    "*://steemit.com/*",
+    "*://busy.org/*",
     "activeTab",
+    "webRequest",
+    "webRequestBlocking",
     "tabs",
     "storage"
   ],

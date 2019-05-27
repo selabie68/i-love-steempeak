@@ -47,6 +47,7 @@ export default {
         setTimeout(function() {
           _this.saveText = 'Save...';
           _this.saveDisabled = false;
+          chrome.runtime.reload();
         }, 2000);
       });
       e.preventDefault();

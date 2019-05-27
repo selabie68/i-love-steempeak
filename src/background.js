@@ -17,14 +17,26 @@
 
 global.browser = require('webextension-polyfill');
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  chrome.storage.sync.get(['aggressive'], function(result) {
-    const parser = document.createElement('a');
-    parser.href = tab.url;
-    if (parser.host === 'steemit.com' || parser.host === 'busy.org') {
-      if (result.aggressive) {
-        chrome.tabs.update(tab.id, { url: 'https://steempeak.com' + parser.pathname + parser.search });
-      } else {
+chrome.storage.sync.get(['aggressive'], function(result) {
+  if (result.aggressive) {
+    chrome.webRequest.onBeforeRequest.addListener(
+      function(info) {
+        const parser = document.createElement('a');
+        parser.href = info.url;
+        if (parser.host === 'steemit.com' || parser.host === 'busy.org') {
+          return { redirectUrl: 'https://steempeak.com' + parser.pathname + parser.search };
+        }
+      },
+      {
+        urls: ['*://steemit.com/*', '*://busy.org/*'],
+      },
+      ['blocking']
+    );
+  } else {
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+      const parser = document.createElement('a');
+      parser.href = tab.url;
+      if (parser.host === 'steemit.com' || parser.host === 'busy.org') {
         if (changeInfo.status === 'complete') {
           chrome.tabs.executeScript(tab.id, {
             file: 'modal/modal.js',
@@ -35,6 +47,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
           });
         }
       }
-    }
-  });
+    });
+  }
 });
