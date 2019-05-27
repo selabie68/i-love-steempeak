@@ -57,7 +57,6 @@ export default {
     let _this = this;
     chrome.storage.sync.get(['aggressive'], function(result) {
       _this.aggressive = result.aggressive;
-      console.log(result);
     });
   },
 };
