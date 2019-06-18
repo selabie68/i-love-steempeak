@@ -1,17 +1,21 @@
 <template>
   <div>
-    <p>Hello world!</p>
+    <SiteOptions />
   </div>
 </template>
 
 <script>
+import SiteOptions from './components/SiteOptions';
+import 'flexboxgrid/css/flexboxgrid.css';
+
 export default {
   name: 'App',
+  components: { SiteOptions },
 };
 </script>
 
-<style scoped>
-p {
-  font-size: 20px;
+<style>
+html {
+  min-width: 600px;
 }
 </style>

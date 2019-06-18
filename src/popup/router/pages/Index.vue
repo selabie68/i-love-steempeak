@@ -18,46 +18,26 @@
 <template>
   <div>
     <p>I Love SteemPeak</p>
-    <SwitchButton v-model="aggressive" color="#F5BF21">Aggressive Mode</SwitchButton>
-    <button class="save-button" v-on:click="save" :disabled="saveDisabled">{{ saveText }}</button>
+    <button class="options-button" v-on:click="openOptions">{{ optionsText }}</button>
   </div>
 </template>
 
 <script>
-import SwitchButton from '../../components/SwitchButton.vue';
-
 export default {
   data() {
     return {
-      aggressive: true,
-      saveText: 'Save...',
-      saveDisabled: false,
+      optionsText: 'Open Options',
     };
   },
-  components: {
-    SwitchButton,
-  },
   methods: {
-    save: function(e) {
-      this.saveDisabled = true;
-      this.saveText = 'Saving...';
-      let _this = this;
-      chrome.storage.sync.set({ aggressive: this.aggressive }, function() {
-        _this.saveText = 'Saved...';
-        setTimeout(function() {
-          _this.saveText = 'Save...';
-          _this.saveDisabled = false;
-          chrome.runtime.reload();
-        }, 2000);
-      });
+    openOptions: function(e) {
+      if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+      } else {
+        window.open(chrome.runtime.getURL('options.html'));
+      }
       e.preventDefault();
     },
-  },
-  beforeCreate: function() {
-    let _this = this;
-    chrome.storage.sync.get(['aggressive'], function(result) {
-      _this.aggressive = result.aggressive;
-    });
   },
 };
 </script>
@@ -67,7 +47,7 @@ p {
   font-size: 20px;
 }
 
-.save-button {
+.options-button {
   background-color: #44c767;
   -moz-border-radius: 28px;
   -webkit-border-radius: 28px;

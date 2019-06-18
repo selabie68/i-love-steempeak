@@ -17,36 +17,84 @@
 
 global.browser = require('webextension-polyfill');
 
-chrome.storage.sync.get(['aggressive'], function(result) {
-  if (result.aggressive) {
-    chrome.webRequest.onBeforeRequest.addListener(
-      function(info) {
-        const parser = document.createElement('a');
-        parser.href = info.url;
-        if (parser.host === 'steemit.com' || parser.host === 'busy.org') {
+chrome.storage.sync.get(['sites'], function(result) {
+  if (result.sites) {
+    // The sites set as aggressive
+    const aggressiveSites = result.sites
+      .filter(function(s) {
+        return s.value === 'aggressive';
+      })
+      .flatMap(function(r) {
+        return r.urls;
+      });
+
+    // The sites set as Passive
+    const passiveSites = result.sites
+      .filter(function(s) {
+        return s.value === 'passive';
+      })
+      .flatMap(function(r) {
+        return r.urls;
+      });
+
+    // Check if we have any aggressive sites (this prevents matching all urls)
+    if (aggressiveSites.length > 0) {
+      // Add listener to aggressive sites
+      chrome.webRequest.onBeforeRequest.addListener(
+        function(info) {
+          const parser = document.createElement('a');
+          parser.href = info.url;
+
           return { redirectUrl: 'https://steempeak.com' + parser.pathname + parser.search };
-        }
-      },
-      {
-        urls: ['*://steemit.com/*', '*://busy.org/*'],
-      },
-      ['blocking']
-    );
-  } else {
+        },
+        {
+          urls: aggressiveSites,
+        },
+        ['blocking']
+      );
+    }
+
+    // Add listener for passive sites
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+      // Our URL Parser
       const parser = document.createElement('a');
       parser.href = tab.url;
-      if (parser.host === 'steemit.com' || parser.host === 'busy.org') {
-        if (changeInfo.status === 'complete') {
-          chrome.tabs.executeScript(tab.id, {
-            file: 'modal/modal.js',
-          });
 
-          chrome.tabs.insertCSS(tab.id, {
-            file: 'modal/modal.css',
-          });
-        }
+      // Does the current URL match any passive sites?
+      const matchedUrls = passiveSites.filter(function(site) {
+        return matchUrl(tab.url, site);
+      });
+
+      // Wait for site to finish loading
+      if (changeInfo.status === 'complete' && matchedUrls.length > 0) {
+        chrome.tabs.executeScript(tab.id, {
+          file: 'modal/modal.js',
+        });
+
+        chrome.tabs.insertCSS(tab.id, {
+          file: 'modal/modal.css',
+        });
       }
     });
+  }
+
+  /**
+   * Matches a url with a wildcard rule as per Chrome
+   * URL permissions standard e.g. *://steemit.com/*
+   *
+   * @param str - Url to check
+   * @param rule - Wildcard rule
+   * @returns {boolean}
+   */
+  function matchUrl(str, rule) {
+    const escapeRegex = str => str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
+    return new RegExp(
+      '^' +
+        rule
+          .split('*')
+          .map(escapeRegex)
+          .join('.*') +
+        '$'
+    ).test(str);
   }
 });
