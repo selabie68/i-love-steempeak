@@ -1,8 +1,8 @@
 {
   "name": "I Love SteemPeak",
   "description": "A Chrome Web Extension for those who love SteemPeak",
-  "version": "1.1.0",
-  "version_name": "v1.1.0",
+  "version": "1.1.1",
+  "version_name": "v1.1.1",
   "manifest_version": 2,
   "icons": {
     "48": "icons/icon_48.png",
@@ -23,20 +23,7 @@
     ]
   },
   "permissions": [
-    "*://steemit.com/*",
-    "*://www.steemit.com/*",
-    "*://busy.org/*",
-    "*://www.busy.org/*",
-    "*://steeve.app/*",
-    "*://www.steeve.app/*",
-    "*://partiko.app/*",
-    "*://www.partiko.app/*",
-    "*://palnet.io/*",
-    "*://www.palnet.io/*",
-    "*://splintertalk.io/*",
-    "*://www.splintertalk.io/*",
-    "*://weedcash.network/*",
-    "*://www.weedcash.network/*",
+    "<all_urls>",
     "activeTab",
     "webRequest",
     "webRequestBlocking",
