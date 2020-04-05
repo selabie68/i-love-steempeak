@@ -30,7 +30,7 @@ export default {
     };
   },
   methods: {
-    openOptions: function(e) {
+    openOptions: function (e) {
       if (chrome.runtime.openOptionsPage) {
         chrome.runtime.openOptionsPage();
       } else {

@@ -17,23 +17,23 @@
 
 global.browser = require('webextension-polyfill');
 
-chrome.storage.sync.get(['sites'], function(result) {
+chrome.storage.sync.get(['sites'], function (result) {
   if (result.sites) {
     // The sites set as aggressive
     const aggressiveSites = result.sites
-      .filter(function(s) {
+      .filter(function (s) {
         return s.value === 'aggressive';
       })
-      .flatMap(function(r) {
+      .flatMap(function (r) {
         return r.urls;
       });
 
     // The sites set as Passive
     const passiveSites = result.sites
-      .filter(function(s) {
+      .filter(function (s) {
         return s.value === 'passive';
       })
-      .flatMap(function(r) {
+      .flatMap(function (r) {
         return r.urls;
       });
 
@@ -41,7 +41,7 @@ chrome.storage.sync.get(['sites'], function(result) {
     if (aggressiveSites.length > 0) {
       // Add listener to aggressive sites
       chrome.webRequest.onBeforeRequest.addListener(
-        function(info) {
+        function (info) {
           const parser = document.createElement('a');
           parser.href = info.url;
 
@@ -61,7 +61,7 @@ chrome.storage.sync.get(['sites'], function(result) {
       parser.href = tab.url;
 
       // Does the current URL match any passive sites?
-      const matchedUrls = passiveSites.filter(function(site) {
+      const matchedUrls = passiveSites.filter(function (site) {
         return matchUrl(tab.url, site);
       });
 
@@ -87,14 +87,7 @@ chrome.storage.sync.get(['sites'], function(result) {
    * @returns {boolean}
    */
   function matchUrl(str, rule) {
-    const escapeRegex = str => str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
-    return new RegExp(
-      '^' +
-        rule
-          .split('*')
-          .map(escapeRegex)
-          .join('.*') +
-        '$'
-    ).test(str);
+    const escapeRegex = (str) => str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
+    return new RegExp('^' + rule.split('*').map(escapeRegex).join('.*') + '$').test(str);
   }
 });

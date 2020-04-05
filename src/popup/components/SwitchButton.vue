@@ -42,7 +42,7 @@ export default {
     },
   },
   methods: {
-    toggle: function() {
+    toggle: function () {
       this.$emit('toggle', !this.isEnabled);
     },
   },

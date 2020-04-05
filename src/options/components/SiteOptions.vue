@@ -81,25 +81,25 @@ export default {
     allDisabled: false,
   }),
   methods: {
-    saveOptions: function(e) {
+    saveOptions: function (e) {
       e.preventDefault();
       this.saveDisabled = true;
       this.saveText = 'Saving...';
       let _this = this;
       // Saves site options into chrome sync storage
-      chrome.storage.sync.set({ sites: this.sites }, function() {
+      chrome.storage.sync.set({ sites: this.sites }, function () {
         _this.saveText = 'Saved...';
 
         chrome.runtime.reload(); // Reload extension to apply changes
 
-        setTimeout(function() {
+        setTimeout(function () {
           _this.saveText = 'Save...';
           _this.saveDisabled = false;
         }, 2000);
       });
     },
-    optionChange: function(e) {
-      this.sites.forEach(function(site) {
+    optionChange: function (e) {
+      this.sites.forEach(function (site) {
         site.value = e.target.value;
       });
     },
@@ -107,7 +107,7 @@ export default {
   beforeCreate() {
     const _this = this;
     // Get existing settings
-    chrome.storage.sync.get(['sites'], function(result) {
+    chrome.storage.sync.get(['sites'], function (result) {
       if (result.sites) {
         _this.sites = result.sites;
       }

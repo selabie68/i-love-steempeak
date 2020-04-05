@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   const modalMarkup = `
     <div id="ils-modal" class="ils-modal">
       <span id="ils-modal-close" class="close"

@@ -27,7 +27,7 @@ Vue.prototype.$browser = global.browser;
 new Vue({
   el: '#app',
   router,
-  render: h => h(App),
+  render: (h) => h(App),
   components: {
     Switch,
   },
